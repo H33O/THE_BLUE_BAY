@@ -4,60 +4,102 @@ using System.Collections;
 
 public class HoverCarController : MonoBehaviour
 {
-    [Header("Hover Settings")]
+    [Header("⚙️ Réglages Lévitation")]
+    [Tooltip("Hauteur de vol au-dessus du sol")]
     [SerializeField] private float hoverHeight = 1f;
+    [Tooltip("Force du ressort qui maintient le van en l'air")]
     [SerializeField] private float hoverSpringStrength = 100f;
+    [Tooltip("Amortissement du ressort (réduit les oscillations)")]
     [SerializeField] private float hoverDamping = 15f;
+    [Tooltip("Couches de sol détectées")]
     [SerializeField] private LayerMask groundLayer;
+    [Tooltip("Distance max du raycast pour détecter le sol")]
     [SerializeField] private float maxRayDistance = 5f;
+    [Tooltip("Distance pour vérifier si on est au-dessus du sol")]
     [SerializeField] private float groundCheckDistance = 20f;
     
-    [Header("Movement Settings")]
+    [Header("🚗 Réglages Déplacement")]
+    [Tooltip("Vitesse maximale du van")]
     [SerializeField] private float maxSpeed = 20f;
+    [Tooltip("Accélération (vitesse de montée en vitesse)")]
     [SerializeField] private float acceleration = 10f;
+    [Tooltip("Décélération (vitesse de freinage)")]
     [SerializeField] private float deceleration = 15f;
+    [Tooltip("Vitesse de rotation (virages)")]
     [SerializeField] private float turnSpeed = 100f;
     
-    [Header("Jump Settings")]
+    [Header("🦘 Réglages Saut")]
+    [Tooltip("Hauteur maximale du saut")]
     [SerializeField] private float jumpHeight = 5f;
+    [Tooltip("Durée du saut (secondes)")]
     [SerializeField] private float jumpDuration = 1f;
+    [Tooltip("Délai entre deux sauts (secondes)")]
     [SerializeField] private float jumpCooldown = 0.8f;
+    [Tooltip("Écrasement avant le saut (0 = pas d'écrasement, 1 = écrasé à fond)")]
     [SerializeField] private float preJumpSquashAmount = 0.25f;
+    [Tooltip("Durée de l'écrasement avant le saut (secondes)")]
     [SerializeField] private float preJumpSquashDuration = 0.1f;
+    [Tooltip("Écrasement à l'atterrissage (0 = pas d'écrasement, 1 = écrasé à fond)")]
     [SerializeField] private float landingSquashAmount = 0.3f;
+    [Tooltip("Durée de l'écrasement à l'atterrissage (secondes)")]
     [SerializeField] private float landingSquashDuration = 0.15f;
+    [Tooltip("Accélération de la descente (multiplieur de gravité)")]
     [SerializeField] private float descentAcceleration = 2f;
     
-    [Header("Tilt Settings")]
+    [Header("📐 Réglages Inclinaison")]
+    [Tooltip("Inclinaison avant/arrière selon vitesse (degrés)")]
     [SerializeField] private float pitchTiltAmount = 15f;
+    [Tooltip("Inclinaison gauche/droite dans les virages (degrés)")]
     [SerializeField] private float rollTiltAmount = 20f;
+    [Tooltip("Vitesse de transition des inclinaisons")]
     [SerializeField] private float tiltSpeed = 3f;
     
-    [Header("Visual Body")]
+    [Header("🎨 Corps Visuel")]
+    [Tooltip("Transform du modèle 3D du van (pour inclinaisons et squash)")]
     [SerializeField] private Transform visualBody;
     
-    [Header("Wheel Positions")]
+    [Header("📍 Positions des Roues")]
+    [Tooltip("Position de la roue avant gauche")]
     [SerializeField] private Transform frontLeftWheelPos;
+    [Tooltip("Position de la roue avant droite")]
     [SerializeField] private Transform frontRightWheelPos;
+    [Tooltip("Position de la roue arrière gauche")]
     [SerializeField] private Transform rearLeftWheelPos;
+    [Tooltip("Position de la roue arrière droite")]
     [SerializeField] private Transform rearRightWheelPos;
     
-    [Header("Wheel Meshes")]
+    [Header("🛞 Modèles des Roues")]
+    [Tooltip("Mesh de la roue avant gauche")]
     [SerializeField] private GameObject frontLeftWheelMesh;
+    [Tooltip("Mesh de la roue avant droite")]
     [SerializeField] private GameObject frontRightWheelMesh;
+    [Tooltip("Mesh de la roue arrière gauche")]
     [SerializeField] private GameObject rearLeftWheelMesh;
+    [Tooltip("Mesh de la roue arrière droite")]
     [SerializeField] private GameObject rearRightWheelMesh;
     
-    [Header("Wheel Settings")]
+    [Header("⚙️ Réglages Roues")]
+    [Tooltip("Décalage vertical des roues par rapport au sol")]
     [SerializeField] private float wheelOffset = 0.1f;
+    [Tooltip("Angle maximum de braquage des roues avant (degrés)")]
     [SerializeField] private float maxSteerAngle = 30f;
+    [Tooltip("Vitesse de rotation du braquage des roues")]
     [SerializeField] private float wheelSteerSpeed = 5f;
+    [Tooltip("Distance de repli si pas de sol détecté")]
     [SerializeField] private float wheelFallbackDistance = 0.5f;
     
-    [Header("Debug Gizmos")]
+    [Header("🏄 Planches de Surf")]
+    [Tooltip("Contrôleur de l'animation des planches")]
+    [SerializeField] private SurfboardsAnimator surfboardsAnimator;
+    
+    [Header("🔍 Debug Visuel")]
+    [Tooltip("Afficher tous les gizmos de debug")]
     [SerializeField] private bool showGizmos = true;
+    [Tooltip("Afficher les rayons des roues")]
     [SerializeField] private bool showWheelRays = true;
+    [Tooltip("Afficher la détection du sol")]
     [SerializeField] private bool showGroundCheck = true;
+    [Tooltip("Afficher la hauteur de lévitation")]
     [SerializeField] private bool showHoverHeight = true;
     
     private Rigidbody rb;
@@ -145,6 +187,11 @@ public class HoverCarController : MonoBehaviour
     {
         canJump = false;
         
+        if (surfboardsAnimator != null)
+        {
+            surfboardsAnimator.OnJumpStart();
+        }
+        
         if (visualBody != null)
         {
             float squashTime = 0f;
@@ -193,6 +240,11 @@ public class HoverCarController : MonoBehaviour
         Debug.Log("SOMMET ATTEINT! Début de la descente accélérée!");
         peakReached = true;
         
+        if (surfboardsAnimator != null)
+        {
+            surfboardsAnimator.OnPeakReached();
+        }
+        
         float descentSpeed = 0f;
         
         while (isInAir)
@@ -211,6 +263,12 @@ public class HoverCarController : MonoBehaviour
                 isInAir = false;
                 peakReached = false;
                 rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+                
+                if (surfboardsAnimator != null)
+                {
+                    surfboardsAnimator.OnLanding();
+                }
+                
                 break;
             }
             
