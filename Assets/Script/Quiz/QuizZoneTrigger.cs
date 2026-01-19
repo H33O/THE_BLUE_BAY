@@ -1,28 +1,65 @@
 ﻿using UnityEngine;
 using TMPro;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 public class QuizZoneTrigger : MonoBehaviour
 {
     [Header("Question")]
     [TextArea(2, 4)]
-    public string questionText;
+    public string questionText = "Choisissez la bonne couleur !";
 
     [Header("UI")]
     public GameObject questionPanel;
     public TextMeshProUGUI questionDisplayText;
+    public TextMeshProUGUI colorsDisplayText;
+
+    [Header("Mode de Réponse")]
+    public AnswerMode answerMode = AnswerMode.Manual;
 
     private bool isActive = false;
     private bool hasBeenAnswered = false;
+    private List<QuizGate> gates = new List<QuizGate>();
+
+    public enum AnswerMode
+    {
+        Manual,
+        Random
+    }
 
     private void Start()
     {
-        GetComponent<Collider>().isTrigger = true;
+        Collider col = GetComponent<Collider>();
+        if (col != null)
+        {
+            col.isTrigger = true;
+        }
 
         if (questionPanel != null)
         {
             questionPanel.SetActive(false);
         }
+
+        gates = GetComponentsInChildren<QuizGate>().ToList();
+
+        if (answerMode == AnswerMode.Random && gates.Count > 0)
+        {
+            RandomizeCorrectAnswer();
+        }
+    }
+
+    private void RandomizeCorrectAnswer()
+    {
+        foreach (var gate in gates)
+        {
+            gate.SetCorrectAnswer(false);
+        }
+
+        int randomIndex = Random.Range(0, gates.Count);
+        gates[randomIndex].SetCorrectAnswer(true);
+
+        Debug.Log($"🎲 Bonne réponse aléatoire : {gates[randomIndex].ringColor}");
     }
 
     private void OnTriggerEnter(Collider other)
@@ -46,9 +83,15 @@ public class QuizZoneTrigger : MonoBehaviour
         {
             questionDisplayText.text = questionText;
         }
+
+        if (colorsDisplayText != null && gates.Count > 0)
+        {
+            string colors = string.Join(" ou ", gates.Select(g => g.ringColor));
+            colorsDisplayText.text = colors + " ?";
+        }
     }
 
-    public void OnAnswerSelected(QuizGate gate, GameObject player)
+    public void OnAnswerSelected(QuizGate gate)
     {
         if (hasBeenAnswered) return;
 
@@ -56,26 +99,25 @@ public class QuizZoneTrigger : MonoBehaviour
 
         if (gate.isCorrectAnswer)
         {
-            Debug.Log("✓ Bonne réponse ! Boost de vitesse !");
-            ApplySpeedBoost(player, gate.speedBoostMultiplier, gate.boostDuration);
+            Debug.Log($"✓ Bonne réponse ({gate.ringColor}) ! -{gate.timeBonus} secondes !");
+            ApplyTimeBonus(gate.timeBonus);
         }
         else
         {
-            Debug.Log($"✗ Mauvaise réponse ! +{gate.timePenalty} secondes de pénalité");
+            Debug.Log($"✗ Mauvaise réponse ({gate.ringColor}) ! +{gate.timePenalty} secondes");
             ApplyTimePenalty(gate.timePenalty);
         }
 
         StartCoroutine(HideQuestionDelayed());
     }
 
-    private void ApplySpeedBoost(GameObject player, float multiplier, float duration)
+    private void ApplyTimeBonus(float bonus)
     {
-        SpeedBoostController boost = player.GetComponent<SpeedBoostController>();
-        if (boost == null)
+        RaceTimer timer = FindFirstObjectByType<RaceTimer>();
+        if (timer != null)
         {
-            boost = player.AddComponent<SpeedBoostController>();
+            timer.RemoveTime(bonus);
         }
-        boost.ApplyBoost(multiplier, duration);
     }
 
     private void ApplyTimePenalty(float penalty)
@@ -97,3 +139,4 @@ public class QuizZoneTrigger : MonoBehaviour
         }
     }
 }
+

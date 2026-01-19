@@ -3,28 +3,23 @@ using TMPro;
 
 public class QuizGate : MonoBehaviour
 {
-    [Header("Configuration")]
-    public string answerText;
+    [Header("Configuration de l'Anneau")]
+    public string ringColor = "Vert";
     public bool isCorrectAnswer = false;
 
     [Header("Récompenses/Pénalités")]
-    public float speedBoostMultiplier = 1.5f;
-    public float boostDuration = 3f;
+    public float timeBonus = 5f;
     public float timePenalty = 5f;
-
-    [Header("UI (optionnel)")]
-    public TextMeshPro labelText;
 
     private bool hasBeenUsed = false;
     private QuizZoneTrigger parentQuiz;
 
     private void Start()
     {
-        GetComponent<Collider>().isTrigger = true;
-
-        if (labelText != null)
+        Collider col = GetComponent<Collider>();
+        if (col != null)
         {
-            labelText.text = answerText;
+            col.isTrigger = true;
         }
 
         parentQuiz = GetComponentInParent<QuizZoneTrigger>();
@@ -37,7 +32,13 @@ public class QuizGate : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             hasBeenUsed = true;
-            parentQuiz.OnAnswerSelected(this, other.gameObject);
+            parentQuiz.OnAnswerSelected(this);
         }
     }
+
+    public void SetCorrectAnswer(bool correct)
+    {
+        isCorrectAnswer = correct;
+    }
 }
+
