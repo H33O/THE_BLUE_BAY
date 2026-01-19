@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using TMPro;
 
 public class FinishLine : MonoBehaviour
@@ -37,8 +37,6 @@ public class FinishLine : MonoBehaviour
 
                 string timeString = $"{minutes:00}:{seconds:00}:{milliseconds:00}";
 
-                Debug.Log($"🏁 COURSE TERMINÉE ! Temps final : {timeString}");
-
                 if (victoryPanel != null)
                 {
                     victoryPanel.SetActive(true);
@@ -48,6 +46,12 @@ public class FinishLine : MonoBehaviour
                         finalTimeText.text = $"Temps final :\n{timeString}";
                     }
                 }
+            }
+
+            QuizWidgetManager quizManager = FindFirstObjectByType<QuizWidgetManager>();
+            if (quizManager != null)
+            {
+                quizManager.HideWidget();
             }
         }
     }

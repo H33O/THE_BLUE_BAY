@@ -1,18 +1,14 @@
 using UnityEngine;
-using TMPro;
 
 public class QuizGate : MonoBehaviour
 {
-    [Header("Configuration de l'Anneau")]
-    public string ringColor = "Vert";
+    [Header("Configuration")]
     public bool isCorrectAnswer = false;
 
-    [Header("Récompenses/Pénalités")]
+    [Header("Rï¿½compenses/Pï¿½nalitï¿½s")]
     public float timeBonus = 5f;
-    public float timePenalty = 5f;
 
     private bool hasBeenUsed = false;
-    private QuizZoneTrigger parentQuiz;
 
     private void Start()
     {
@@ -21,18 +17,21 @@ public class QuizGate : MonoBehaviour
         {
             col.isTrigger = true;
         }
-
-        parentQuiz = GetComponentInParent<QuizZoneTrigger>();
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (hasBeenUsed || parentQuiz == null) return;
+        if (hasBeenUsed) return;
 
         if (other.CompareTag("Player"))
         {
             hasBeenUsed = true;
-            parentQuiz.OnAnswerSelected(this);
+
+            QuizWidgetManager manager = FindFirstObjectByType<QuizWidgetManager>();
+            if (manager != null)
+            {
+                manager.OnRingPassed(gameObject, isCorrectAnswer, timeBonus);
+            }
         }
     }
 

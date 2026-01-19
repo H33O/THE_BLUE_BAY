@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using TMPro;
 using System.Collections;
 using System.Collections.Generic;
@@ -59,7 +59,7 @@ public class QuizZoneTrigger : MonoBehaviour
         int randomIndex = Random.Range(0, gates.Count);
         gates[randomIndex].SetCorrectAnswer(true);
 
-        Debug.Log($"🎲 Bonne réponse aléatoire : {gates[randomIndex].ringColor}");
+        Debug.Log($"🎲 Bonne réponse aléatoire définie");
     }
 
     private void OnTriggerEnter(Collider other)
@@ -86,8 +86,7 @@ public class QuizZoneTrigger : MonoBehaviour
 
         if (colorsDisplayText != null && gates.Count > 0)
         {
-            string colors = string.Join(" ou ", gates.Select(g => g.ringColor));
-            colorsDisplayText.text = colors + " ?";
+            colorsDisplayText.text = "Passez dans l'anneau !";
         }
     }
 
@@ -99,13 +98,13 @@ public class QuizZoneTrigger : MonoBehaviour
 
         if (gate.isCorrectAnswer)
         {
-            Debug.Log($"✓ Bonne réponse ({gate.ringColor}) ! -{gate.timeBonus} secondes !");
+            Debug.Log($"✓ Bonne réponse ! -{gate.timeBonus} secondes !");
             ApplyTimeBonus(gate.timeBonus);
         }
         else
         {
-            Debug.Log($"✗ Mauvaise réponse ({gate.ringColor}) ! +{gate.timePenalty} secondes");
-            ApplyTimePenalty(gate.timePenalty);
+            Debug.Log($"✗ Mauvaise réponse ! +{gate.timeBonus} secondes");
+            ApplyTimePenalty(gate.timeBonus);
         }
 
         StartCoroutine(HideQuestionDelayed());
