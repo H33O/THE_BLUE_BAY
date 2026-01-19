@@ -101,6 +101,7 @@ public class MultiDialogueQuestTrigger : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         ShowQuestWidget();
+        ShowCollectionUI();
         ActivateCollectibles();
     }
 
@@ -134,14 +135,18 @@ public class MultiDialogueQuestTrigger : MonoBehaviour
             }
         }
 
-        if (collectionUI != null)
-        {
-            collectionUI.SetActive(true);
-        }
-
         SimpleCollectible.count = 0;
 
         Debug.Log($"✓ {collectiblesToActivate.Length} collectibles activés !");
+    }
+
+    private void ShowCollectionUI()
+    {
+        if (collectionUI != null)
+        {
+            collectionUI.SetActive(true);
+            Debug.Log("Compteur de collection affiché : 0/3");
+        }
     }
 }
 
