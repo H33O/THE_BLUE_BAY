@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &9182146704667356713
+--- !u!1 &6003620799713160750
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,48 +8,50 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4670877315446611055}
-  - component: {fileID: 6561910742419977120}
-  - component: {fileID: 1410394837648777176}
-  - component: {fileID: 319424937782197847}
-  - component: {fileID: 6496812831702901531}
+  - component: {fileID: 1501648646851346730}
+  - component: {fileID: 2856540659227156380}
+  - component: {fileID: 7795561749305128613}
+  - component: {fileID: 4580365310839545002}
+  - component: {fileID: 7571803095916437525}
+  - component: {fileID: 5415667229352602853}
+  - component: {fileID: 1801904197098414255}
   m_Layer: 0
-  m_Name: Cube (1)
+  m_Name: AnneauBleu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4670877315446611055
+--- !u!4 &1501648646851346730
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9182146704667356713}
+  m_GameObject: {fileID: 6003620799713160750}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 22.8, y: 0.5, z: 32.7}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: 0.8934163, z: -0, w: 0.44922972}
+  m_LocalPosition: {x: 31.4, y: 6.5, z: 38.86}
+  m_LocalScale: {x: 181.32, y: 181.32, z: 181.32}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &6561910742419977120
+  m_LocalEulerAnglesHint: {x: 0, y: 126.611, z: 0}
+--- !u!33 &2856540659227156380
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9182146704667356713}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &1410394837648777176
+  m_GameObject: {fileID: 6003620799713160750}
+  m_Mesh: {fileID: 2534964839176971238, guid: 4bb46a1001623124fb71c2167cc52bbb, type: 3}
+--- !u!23 &7795561749305128613
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9182146704667356713}
+  m_GameObject: {fileID: 6003620799713160750}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -66,7 +68,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: bf0e40261b42aa849b18484e761c34f5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -88,13 +90,13 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &319424937782197847
+--- !u!65 &4580365310839545002
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9182146704667356713}
+  m_GameObject: {fileID: 6003620799713160750}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -103,21 +105,61 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.06854352, y: 0.06856485, z: 0.003785691}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6496812831702901531
+--- !u!114 &7571803095916437525
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9182146704667356713}
+  m_GameObject: {fileID: 6003620799713160750}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b57b328aba01bc49b03021cc5e62af5, type: 3}
+  m_Script: {fileID: 11500000, guid: 021f4ab7c6bc13a4cb466d62d6991487, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enablePulse: 1
+  pulseSpeed: 5
+  minIntensity: 1
+  maxIntensity: 100
+  rotate: 1
+  rotationSpeed: 30
+  rotationAxis: {x: 0, y: 1, z: 0}
+--- !u!114 &5415667229352602853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6003620799713160750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a129c5ffd966a14e9b0e3eea0b8e43e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ringColor: Vert
+  isCorrectAnswer: 0
+  timeBonus: 5
+  timePenalty: 5
+--- !u!114 &1801904197098414255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6003620799713160750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49e50b06dd3cebc408f642c7a7fa65f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  questionText: "Ils stockent le carbone dans les s\xE9diments marins "
+  questionPanel: {fileID: 0}
+  questionDisplayText: {fileID: 0}
+  colorsDisplayText: {fileID: 0}
+  answerMode: 0
