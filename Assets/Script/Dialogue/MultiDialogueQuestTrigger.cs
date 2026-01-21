@@ -31,6 +31,9 @@ public class MultiDialogueQuestTrigger : MonoBehaviour
     public GameObject[] collectiblesToActivate;
     public GameObject collectionUI;
 
+    [Header("Gestionnaire de Dialogues")]
+    public QuestDialogueManager questDialogueManager;
+
     private bool hasTriggered = false;
 
     private void Start()
@@ -103,6 +106,11 @@ public class MultiDialogueQuestTrigger : MonoBehaviour
         ShowQuestWidget();
         ShowCollectionUI();
         ActivateCollectibles();
+
+        if (questDialogueManager != null)
+        {
+            questDialogueManager.StartQuestDialogues();
+        }
     }
 
     private void ShowQuestWidget()
@@ -145,7 +153,7 @@ public class MultiDialogueQuestTrigger : MonoBehaviour
         if (collectionUI != null)
         {
             collectionUI.SetActive(true);
-            Debug.Log("Compteur de collection affiché : 0/3");
+            Debug.Log("📊 Compteur de collection affiché : 0/3");
         }
     }
 }
