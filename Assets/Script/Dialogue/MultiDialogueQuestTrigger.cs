@@ -10,8 +10,8 @@ public class MultiDialogueQuestTrigger : MonoBehaviour
     public List<string> dialogues = new List<string>
     {
         "Bonjour voyageur ! J'ai besoin de votre aide.",
-        "Des objets précieux ont été perdus dans la région.",
-        "Pouvez-vous les retrouver pour moi ?"
+        "Des piles permettant d'alimenter mon phare ont disparu !",
+        "Il en manque trois. Pouvez-vous les retrouver pour moi ?"
     };
     public float dialogueDuration = 3f;
 
@@ -19,13 +19,9 @@ public class MultiDialogueQuestTrigger : MonoBehaviour
     public GameObject dialoguePanel;
     public TextMeshProUGUI dialogueText;
 
-    [Header("UI - Widget de Quête en Haut à Gauche")]
+    [Header("UI - Widget de Quête")]
     public GameObject questWidget;
-    public TextMeshProUGUI questTitleText;
-    public TextMeshProUGUI questDescriptionText;
-    public string questTitle = "Collecte d'Objets";
-    [TextArea(2, 3)]
-    public string questDescription = "Collectez 3 objets précieux";
+    public TextMeshProUGUI questText;
 
     [Header("Objets à Activer")]
     public GameObject[] collectiblesToActivate;
@@ -120,17 +116,12 @@ public class MultiDialogueQuestTrigger : MonoBehaviour
             questWidget.SetActive(true);
         }
 
-        if (questTitleText != null)
+        if (questText != null)
         {
-            questTitleText.text = questTitle;
+            questText.text = "Collecter 3 objets pour le phare";
         }
 
-        if (questDescriptionText != null)
-        {
-            questDescriptionText.text = questDescription;
-        }
-
-        Debug.Log($"📋 Quête activée : {questTitle}");
+        Debug.Log("📋 Widget de quête affiché");
     }
 
     private void ActivateCollectibles()
