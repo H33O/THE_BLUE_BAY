@@ -1,10 +1,12 @@
-﻿using UnityEngine;
+using UnityEngine;
 using TMPro;
+using System.Collections;
 
 public class RaceTimer : MonoBehaviour
 {
     [Header("UI Reference")]
     public TextMeshProUGUI timerText;
+    public TextMeshProUGUI timeFeedbackText;
 
     [Header("Configuration")]
     public bool startOnAwake = false;
@@ -103,6 +105,12 @@ public class RaceTimer : MonoBehaviour
             timerText.color = penaltyColor;
             colorFlashTimer = colorFlashDuration;
         }
+
+        if (timeFeedbackText != null)
+        {
+            StopAllCoroutines();
+            StartCoroutine(ShowTimeFeedback($"+{seconds:F0}", new Color(1f, 0f, 0f, 1f)));
+        }
     }
 
     public void RemoveTime(float seconds)
@@ -113,6 +121,12 @@ public class RaceTimer : MonoBehaviour
             elapsedTime = 0f;
         }
         Debug.Log($"✓ Bonus de temps : -{seconds} secondes");
+
+        if (timeFeedbackText != null)
+        {
+            StopAllCoroutines();
+            StartCoroutine(ShowTimeFeedback($"-{seconds:F0}", new Color(0f, 1f, 0f, 1f)));
+        }
     }
 
     public float GetTime()
@@ -142,6 +156,34 @@ public class RaceTimer : MonoBehaviour
     public int GetMilliseconds()
     {
         return Mathf.FloorToInt((elapsedTime * 100f) % 100f);
+    }
+
+    private IEnumerator ShowTimeFeedback(string text, Color color)
+    {
+        timeFeedbackText.text = text;
+        timeFeedbackText.color = color;
+
+        float elapsed = 0f;
+        float displayDuration = 1f;
+        float fadeDuration = 0.5f;
+
+        while (elapsed < displayDuration)
+        {
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        elapsed = 0f;
+        while (elapsed < fadeDuration)
+        {
+            elapsed += Time.deltaTime;
+            float alpha = Mathf.Lerp(1f, 0f, elapsed / fadeDuration);
+            timeFeedbackText.color = new Color(color.r, color.g, color.b, alpha);
+            yield return null;
+        }
+
+        timeFeedbackText.text = "";
+        timeFeedbackText.color = new Color(color.r, color.g, color.b, 0f);
     }
 }
 
